@@ -1,4 +1,3 @@
-// app/types/skip.ts
 export interface Skip {
   id: number;
   size: number;

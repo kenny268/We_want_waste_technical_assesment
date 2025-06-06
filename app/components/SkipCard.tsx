@@ -1,17 +1,8 @@
-// components/SkipCard.tsx
 import React from "react";
 import Image from "next/image";
 import clsx from "clsx";
+import { Skip } from "@/app/types/skip";
 
-interface Skip {
-  id: number;
-  size: number;
-  hire_period_days: number;
-  price_before_vat: number;
-  vat: number;
-  allowed_on_road: boolean;
-  allows_heavy_waste: boolean;
-}
 
 interface SkipCardProps {
   skip: Skip;

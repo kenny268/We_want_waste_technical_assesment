@@ -1,19 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import SkipCard from "./SkipCard";
+import { Skip } from "@/app/types/skip";
 
-interface Skip {
-  id: number;
-  size: number;
-  hire_period_days: number;
-  price_before_vat: number;
-  vat: number;
-  allowed_on_road: boolean;
-  allows_heavy_waste: boolean;
-}
 
 interface SkipListProps {
-  onSkipSelect: (id: number) => void;
+  onSkipSelect: (skip: Skip) => void;
   selectedSkipId: number | null;
 }
 
@@ -156,11 +148,12 @@ const SkipList: React.FC<SkipListProps> = ({ onSkipSelect, selectedSkipId }) => 
         ) : (
           filteredSkips.map((skip) => (
             <SkipCard
-              key={skip.id}
-              skip={skip}
-              isSelected={skip.id === selectedSkipId}
-              onSelect={onSkipSelect}
+                key={skip.id}
+                skip={skip}
+                isSelected={skip.id === selectedSkipId}
+                onSelect={() => onSkipSelect(skip)}
             />
+
           ))
         )}
       </section>
