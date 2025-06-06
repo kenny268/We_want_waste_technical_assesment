@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import clsx from "clsx";
+import ProgressBar from "@/app/components/ProgressBar";
 
 interface Skip {
   id: number;
@@ -139,45 +140,7 @@ export default function Home() {
       <main className="max-w-7xl mx-auto">
 
         {/* Navigation Steps - Progress Bar */}
-        <nav className="flex justify-center mb-10">
-          <div className="flex items-center space-x-6 text-sm md:text-base font-semibold text-white">
-            <button className="flex items-center gap-2 border-b-4 border-[#0037C1] pb-1">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-5 h-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M8 7V3m8 18v-4M3 13h18M12 7v10"
-                />
-              </svg>
-              Postcode
-            </button>
-            <span className="h-1 w-10 bg-[#0037C1] rounded-full" />
-            <button className="flex items-center gap-2 hover:underline opacity-50 cursor-default">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-5 h-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-              Waste Type
-            </button>
-          </div>
-        </nav>
+        <ProgressBar/>
 
         {/* Search & Filters */}
         <section className="mb-8 bg-[#1E1E1E] p-6 rounded-lg shadow-lg flex flex-wrap gap-6 justify-between items-center">
