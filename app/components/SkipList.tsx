@@ -88,34 +88,39 @@ const SkipList: React.FC<SkipListProps> = ({ onSkipSelect, selectedSkipId }) => 
   return (
     <>
       <section className="mb-8 bg-[#1E1E1E] p-6 rounded-lg shadow-lg flex flex-wrap gap-6 justify-between items-center">
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4 flex-grow max-w-4xl">
-          {/* Search */}
-          <input
-            type="text"
-            placeholder="Search by skip size..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="flex-grow bg-[#2A2A2A] text-white placeholder-gray-400 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0037C1] transition"
-          />
-          {/* Min Price */}
-          <input
-            type="number"
-            min={0}
-            placeholder="Min price (£)"
-            value={minPrice}
-            onChange={(e) => setMinPrice(e.target.value)}
-            className="w-28 bg-[#2A2A2A] text-white placeholder-gray-400 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0037C1] transition"
-          />
-          {/* Max Price */}
-          <input
-            type="number"
-            min={0}
-            placeholder="Max price (£)"
-            value={maxPrice}
-            onChange={(e) => setMaxPrice(e.target.value)}
-            className="w-28 bg-[#2A2A2A] text-white placeholder-gray-400 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0037C1] transition"
-          />
-        </div>
+    <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4 flex-grow max-w-4xl w-full">
+  {/* Search (full width on mobile, grow on desktop) */}
+  <input
+    type="text"
+    placeholder="Search by skip size..."
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+    className="w-full sm:flex-grow bg-[#2A2A2A] text-white placeholder-gray-400 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0037C1] transition"
+  />
+
+  {/* Price inputs side-by-side on mobile */}
+  <div className="flex w-full sm:w-auto gap-3 mt-3 sm:mt-0">
+    <input
+      type="number"
+      min={0}
+      placeholder="Min £"
+      value={minPrice}
+      onChange={(e) => setMinPrice(e.target.value)}
+      className="w-1/2 sm:w-28 bg-[#2A2A2A] text-white placeholder-gray-400 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0037C1] transition"
+    />
+    <input
+      type="number"
+      min={0}
+      placeholder="Max £"
+      value={maxPrice}
+      onChange={(e) => setMaxPrice(e.target.value)}
+      className="w-1/2 sm:w-28 bg-[#2A2A2A] text-white placeholder-gray-400 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0037C1] transition"
+    />
+  </div>
+</div>
+
+
+
         <div className="flex flex-wrap gap-6 items-center">
           {/* Checkbox On-road */}
           <label className="flex items-center gap-2 text-sm cursor-pointer select-none">
