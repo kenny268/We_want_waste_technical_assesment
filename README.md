@@ -1,36 +1,167 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
 
-First, run the development server:
+# 🏗️ WeWantWaste — Skip Selector UI
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+* **Author:**  Kennedy Kiprono
+* **Submission Date:** *June 7, 2025*
+* **Submission Type:** Technical Assessment – Frontend Challenge
+
+
+---
+
+## 📘 Overview
+
+This project is a **Skip Selection Interface** built as part of a technical assessment for WeWantWaste. It allows users to:
+
+* View a list of skips based on a real API
+* Filter skips by size, price, or waste type compatibility
+* Select a skip and continue the booking process
+* Retain selection state between reloads
+* View contextual pricing with VAT
+
+My approach focused on usability, code clarity, performance, and maintainability.
+
+---
+
+## ⚙️ Tech Stack
+
+* **Framework:** Next.js (App Router)
+* **Language:** TypeScript
+* **Styling:** Tailwind CSS
+* **State Management:** React hooks
+* **Image Handling:** `next/image`
+* **Build Tool:** Vite (via Next internal tooling)
+* **Deployment:** CodeSandbox / GitHub Pages
+
+---
+
+## 📁 Folder Structure
+
+```
+/app
+  ├── components/
+  │     ├── ProgressBar.tsx
+  │     ├── SkipCard.tsx
+  │     ├── SkipList.tsx
+  │     └── ContinueButton.tsx
+  ├── types/
+  │     └── skip.ts
+  ├── page.tsx
+  └── layout.tsx
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🧩 Core Components
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### `SkipCard.tsx`
 
-## Learn More
+* Renders visual details for a skip
+* Clickable/selectable with keyboard support
+* Conditionally shows "On-road" and "Heavy Waste" tags only when applicable
 
-To learn more about Next.js, take a look at the following resources:
+### `SkipList.tsx`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* Fetches skips from a remote API
+* Filters by:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+  * Size (search)
+  * Price range
+  * Feature flags
+* Applies real-time filtering with validation
+* Handles errors and empty states
 
-## Deploy on Vercel
+### `ContinueButton.tsx`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* Floating button shown only when a skip is selected
+* Displays price (with VAT), size, and duration
+* Supports back and continue navigation (stubbed)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### `ProgressBar.tsx`
+
+* Displays current step in booking process
+* Static component with styled indicators
+
+---
+
+## 🔐 Types & State Management
+
+I created a centralized `Skip` type under `app/types/skip.ts`:
+
+```ts
+export interface Skip {
+  id: number;
+  size: number;
+  hire_period_days: number;
+  price_before_vat: number;
+  vat: number;
+  allowed_on_road: boolean;
+  allows_heavy_waste: boolean;
+}
+```
+
+This is shared across all components to ensure consistency and full TypeScript support.
+
+**State is managed using React hooks**, lifted up to `page.tsx`:
+
+* `selectedSkipId` is persisted in `localStorage`
+* Selection updates the floating bar and re-renders selected cards
+
+---
+
+## 🔄 Data Flow
+
+```
+API → SkipList → SkipCard
+                ↓
+         onSelect(skip.id)
+                ↓
+       page.tsx (state update)
+                ↓
+       ContinueButton renders
+```
+
+This uni-directional flow ensures tight control and no duplication of logic.
+
+---
+
+## 🌐 API Usage
+
+I used the provided endpoint:
+
+```
+GET https://app.wewantwaste.co.uk/api/skips/by-location?postcode=NR32&area=Lowestoft
+```
+
+To ensure robust handling, I included:
+
+* Try/catch error handling
+* Fallback to empty state message
+* Lazy loading and conditional rendering
+
+---
+
+## 🧪 Features & Enhancements
+
+| Feature                 | Status | Notes                                     |
+| ----------------------- | ------ | ----------------------------------------- |
+| Skip filtering by size  | ✅      | Live search with debounce-ready structure |
+| Min/max price filtering | ✅      | Includes validation and range enforcement |
+| Filter by feature flags | ✅      | On-road and heavy waste toggle support    |
+| VAT-inclusive pricing   | ✅      | Displayed consistently across UI          |
+| Image previews          | ✅      | Responsive, uses `next/image`             |
+| Floating Continue bar   | ✅      | Dynamically shown/hidden                  |
+| Keyboard accessibility  | ✅      | Focus, enter, and aria support            |
+| Dark mode styling       | ✅      | Enabled via Tailwind’s dark class         |
+| Type-safe throughout    | ✅      | All components use shared interfaces      |
+
+---
+
+## 💡 Decisions Made
+
+* **Type centralization**: To avoid drift between components and simplify future API updates.
+* **LocalStorage integration**: To create a seamless experience where the selection persists between reloads.
+* **Modular components**: To keep the UI testable, readable, and reusable.
+* **Conditional rendering**: To avoid empty containers (like the feature tag block) when unnecessary.
+* **ProgressBar as static**: Left dynamic behavior out for now but easy to extend with a state prop later.
+
